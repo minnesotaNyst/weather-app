@@ -4,21 +4,52 @@ var appid = '&units=imperial&appid=';
 var key = '8e6479f6b364bc5de90337af11e4ecd9'; //If you're seeing this, you need to sign up for the site (https://openweathermap.org/api) and navigate to "My API Keys to grab yours..."
 
 //what fields will we need to have access to (DOM)
-var sCity = $('submit-city');
+var cityEl = $('#search-city');
+var submit = $('#submit');
 
+//function to get the forecast for the specified city
 var getForecast = function (city) {
 	//format the url (module 6.1)
 	var queryURL = url + city + appid + key;
+	console.log(queryURL); //remove this when we no longer need the URL
 
 	//now we need to get the data
 	fetch(queryURL).then(function (response) {
 		console.log(response);
-		response.json().then(function (data) {
-			console.log(data);
-		});
+		if (response.ok) {
+			response.json().then(function (data) {
+				console.log(data);
+				displayData(data);
+			});
+		} else {
+			alert('There was a problem with your request!');
+		}
 	});
 };
-getForecast('Fargo');
+
+//function to get the city
+var getCity = function (e) {
+	e.preventDefault();
+	//create a new variable for city to pass into the getForecast function
+	var city = $.trim(cityEl.val());
+	console.log(city);
+
+	if (city) {
+		getForecast(city);
+		cityEl.value = '';
+	} else {
+		alert('Please enter a City');
+	}
+
+	console.log(e);
+};
+
+//function to display the weather data for that day
+var displayData = function (weatherData) {
+	console.log(weatherData.list[2].main.temp);
+};
+
+$(submit).on('click', getCity);
 
 //what do we need to do with the field once it has been entered into the search engine
 //--store it
