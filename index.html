@@ -23,32 +23,36 @@
                 <div>
                     <h4 class="pb-3 text-center">Search by City</h4>
                     <div class="input-group pb-3">
-
-                        <input class="form-control" id="search-city" type="text" placeholder="Search"
-                            aria-label="Search">
+                        <input class="form-control" id="city" type="text" placeholder="Search" aria-label="Search">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-primary btn-info" type="submit" id="search"><i
+                            <button class="btn btn-outline-primary btn-info" type="submit" id="search-city"><i
                                     class="fas fa-search text-white" id="submit" aria-hidden="true"></i></button>
                         </div>
                     </div>
                 </div>
-                <div id="cityList" class="w-100 btn-group-vertical "></div>
+                <div id="searchHistory" class="w-100 btn-group-vertical "></div>
             </div>
             <div class="col-12 col-md-10">
                 <div class="form-group pt-3">
                     <div class="table border " id="table2">
                         <div class="row p-3">
                             <div class="col-md-9">
-                                <div class="city" id="currentDay"></div>
-                                <div class="temperature"></div>
-                                <div class="temp_low"></div>
-                                <div class="temp_high"></div>
-                                <div class="humidity"></div>
-                                <div class="windspeed"></div>
-                                <div class="uvIndex"></div>
+                                <!--  <div class="city" id="currentDay"></div>
+                            <div class="temperature"></div>
+                            <div class="temp_low"></div>
+                            <div class="temp_high"></div>
+                            <div class="humidity"></div>
+                            <div class="windspeed"></div>
+                            <div class="uvIndex"></div> -->
+                                <h3><span id="current-city"></span><img id="weather-img" src=""></h3>
+                                <p>Temperature: <span id="temperature"></span></p>
+                                <p>Low Temperature: <span id="temp_low"></span></p>
+                                <p>High Temperature: <span id="temp_high"></span></p>
+                                <p>Humidity: <span id="humidity"></span></p>
+                                <p>Wind Speed: <span id="windspeed"></span></p>
+                                <p>UV Index: <span id="uvIndex" class="badge text-white"></p>
                             </div>
                         </div>
-
                     </div>
                     <h3>5-Day Forecast:</h3>
                     <div class="d-flex flex-column flex-md-row justify-content-between" id="5-day-forecast">
@@ -56,7 +60,6 @@
                 </div>
             </div>
         </div>
-
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
         <script src="./assets/js/main.js"></script>
