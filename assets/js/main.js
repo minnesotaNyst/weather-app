@@ -41,10 +41,13 @@ var getWeather = function (city) {
 				$('#temp_high').text(data.list[0].main.temp_max.toFixed(0) + '°F');
 				$('#humidity').text(data.list[0].main.humidity + '%');
 				$('#windspeed').text(data.list[0].wind.speed.toFixed(0) + ' ' + 'mph');
-				setHistory(location);
-				/* getForecast(lat, lon); */
 
-				fetch(uUrl + lat + '&lon=' + lon + '&appid=' + key).then(function (
+				//pass the location into the setHistory function to store the city
+				setHistory(location);
+				//pass lat/lon into the getForecast function
+				getForecast(lat, lon);
+
+				fetch(uUrl + lat + '&lon=' + lon + appid + key).then(function (
 					response
 				) {
 					if (response.ok) {
@@ -74,13 +77,20 @@ var getWeather = function (city) {
 };
 
 // Fetch forecast data from weather API (use the onecall api here)
+
 var getForecast = function (lat, lon) {
-	fetch(uUrl + lat + '&lon=' + lon + '&appid=' + key).then(function (response) {
+	var oneCall = uUrl + lat + '&lon=' + lon + appid + key;
+	console.log(oneCall);
+	fetch(oneCall).then(function (response) {
 		// display forecast data from API
 		if (response.ok) {
-            response.json().then(function(data){
+			response.json().then(function (data) {
+                var forecast = data.daily.splice(3);
 
-            })
+                $()
+                
+			});
+		}
 	});
 };
 
