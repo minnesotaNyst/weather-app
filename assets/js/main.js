@@ -7,22 +7,23 @@ var weather = '';
 var cities = [];
 
 //function to display search history in the left column of the app
-/* var searchHistory = function () {
+var searchHistory = function () {
 	cities = JSON.parse(localStorage.getItem('cities'));
 	console.log(cities);
-
 	if (!cities) {
 		cities = [];
 		return;
 	} else {
 		for (var i = 0; i < cities.length; ++i) {
-			var historyEl = $('search-history').add('p');
-			historyEl.text(cities[i]);
-			historyEl.addClass('list-group-item btn btn-light');
+			//BCS learning assistant advised to do this with less jQuery
+			var historyEl = document.createElement('p');
+			historyEl.textContent = cities[i];
+			historyEl.classList = 'clear list-group-item btn btn-light';
 			$('#search-history').append(historyEl);
+			console.log(historyEl);
 		}
 	}
-}; */
+};
 
 //function to grab the searched for city and return required data elements
 var getWeather = function (city) {
@@ -56,11 +57,11 @@ var getWeather = function (city) {
 							console.log(data.current.uvi);
 							if (data.current.uvi > 2 && data.current.uvi < 5) {
 								//come back to this and figure out the addclass method to change the warning
-								$('#uvIndex').css('bg-warning');
+								$('#uvIndex').addClass('bg-warning');
 							} else if (data.current.uvi < 2) {
-								$('uvIndex').css('bg-success');
+								$('uvIndex').addClass('bg-success');
 							} else if (data.current.uvi > 5) {
-								$('uvIndex').css('bg-danger');
+								$('uvIndex').addClass('bg-danger');
 							}
 						});
 					} else {
@@ -76,8 +77,7 @@ var getWeather = function (city) {
 	});
 };
 
-// Fetch forecast data from weather API (use the onecall api here)
-
+//function to get the five day forecast data from the oncall weather api
 var getForecast = function (lat, lon) {
 	var oneCall = uUrl + lat + '&lon=' + lon + appid + key;
 	console.log(oneCall);
@@ -115,22 +115,21 @@ var setHistory = function (location) {
 	} else {
 		//if a location does exist, then push the value to the cities variable
 		cities.push(location);
+
+		//ths will put the most recent 8 entries at the top of the list
+		if (cities.length > 8) {
+			cityHistory.shift();
+		}
+
+		//set the local storage with a key name of cities
+		localStorage.setItem('cities', JSON.stringify(cities));
+
+        //needed to create a class that would allow us to grab the created p elements so we could clear the list and append the new cities
+		$('.clear').each(function () {
+			$(this).remove();
+		});
+		searchHistory();
 	}
-
-	//ths will put the most recent 8 entries at the top of the list
-	if (cities.length > 8) {
-		cityHistory.shift();
-	}
-
-	//set the local storage with a key name of cities
-	localStorage.setItem('cities', JSON.stringify(cities));
-
-	$('cities').each(function () {
-		$(this).remove();
-	});
-
-	/* 	searchHistory(); */
 };
 
 $('#submit').on('click', getCity);
-/* searchHistory(); */
