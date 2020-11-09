@@ -27,7 +27,8 @@ var searchHistory = function () {
 
 //function to grab the searched for city and return required data elements
 var getWeather = function (city) {
-	fetch(wUrl + city + appid + key).then(function (response) {
+	var mainWeather = wUrl + city + appid + key;
+	fetch(mainWeather).then(function (response) {
 		if (response.ok) {
 			response.json().then(function (data) {
 				var lat = data.city.coord.lat;
@@ -56,12 +57,11 @@ var getWeather = function (city) {
 							$('#uvIndex').text(data.current.uvi);
 							console.log(data.current.uvi);
 							if (data.current.uvi > 2 && data.current.uvi < 5) {
-								//come back to this and figure out the addclass method to change the warning
 								$('#uvIndex').addClass('bg-warning');
 							} else if (data.current.uvi < 2) {
-								$('uvIndex').addClass('bg-success');
+								$('#uvIndex').addClass('bg-success');
 							} else if (data.current.uvi > 5) {
-								$('uvIndex').addClass('bg-danger');
+								$('#uvIndex').addClass('bg-danger');
 							}
 						});
 					} else {
@@ -124,7 +124,7 @@ var setHistory = function (location) {
 		//set the local storage with a key name of cities
 		localStorage.setItem('cities', JSON.stringify(cities));
 
-        //needed to create a class that would allow us to grab the created p elements so we could clear the list and append the new cities
+		//needed to create a class that would allow us to grab the created p elements so we could clear the list and append the new cities
 		$('.clear').each(function () {
 			$(this).remove();
 		});
@@ -132,4 +132,11 @@ var setHistory = function (location) {
 	}
 };
 
-$('#submit').on('click', getCity);
+/* var searchHistory = function () {
+	var search = $(this).text().trim();
+	console.log(search);
+	getWeather(search);
+}; */
+
+$('#search-city').on('click', getCity);
+/* $('#serch-history').on('click', '.clear', searchHistory); */
