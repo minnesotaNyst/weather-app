@@ -6,6 +6,7 @@ var appid = '&units=imperial&appid=';
 var key = '21d337020a0247b874a0d43202c4ad83';
 var weather = '';
 var cities = [];
+var cDate1 = moment().format('MM/DD/YYYY');
 
 //function to display search history in the left column of the app
 var searchHistory = function () {
@@ -29,7 +30,7 @@ var searchHistory = function () {
 //function to grab the searched for city and return required data elements
 var getWeather = function (city) {
 	var mainWeather = wUrl + city + appid + key;
-	console.log(mainWeather);
+	console.log(mainWeather); //remove this
 	fetch(mainWeather).then(function (response) {
 		if (response.ok) {
 			response.json().then(function (data) {
@@ -37,8 +38,7 @@ var getWeather = function (city) {
 				var lon = data.city.coord.lon;
 				var location = data.city.name;
 				console.log(lat, lon, location);
-				var currentDate = moment().format('MM/DD/YYYY');
-				$('#current-city').text(location + ' ' + currentDate);
+				$('#current-city').text(location + ' ' + cDate1);
 				$('#weather-img').attr(
 					'src',
 					img + data.list[0].weather[0].icon + '.png'
@@ -85,12 +85,33 @@ var getWeather = function (city) {
 //function to get the five day forecast data from the oncall weather api
 var getForecast = function (lat, lon) {
 	var oneCall = uUrl + lat + '&lon=' + lon + appid + key;
-	console.log(oneCall);
+	console.log(oneCall); //remove this
 	fetch(oneCall).then(function (response) {
 		// display forecast data from API
 		if (response.ok) {
 			response.json().then(function (data) {
 				var forecast = data.daily.splice(3);
+				console.log(forecast);
+
+				for (var i = 0; i < 5; ++i) {
+					$('.forecast').each(function () {
+						var cDate2 = moment()
+							.add(i + 1, 'days')
+							.format('MM/DD');
+						$(this)
+							.children('.forecast-date' + i)
+							.text(cDate2);
+						$(this)
+							.children('.forecast-icon' + i)
+							.attr('src', img + data.daily[i].weather[0].icon + '.png');
+						$(this)
+							.children('.forecast-temp' + i)
+							.text(data.daily[i].temp.day + '°F');
+						$(this)
+							.children('forecast-hum' + i)
+							.text(data.daily[i].humidity + '%');
+					});
+				}
 			});
 		}
 	});
@@ -99,7 +120,7 @@ var getForecast = function (lat, lon) {
 //function to get the city
 var getCity = function (e) {
 	e.preventDefault();
-	//create a new variable for city to pass into the getForecast function
+	//create a new variable for city to pass into the getWeather function
 	var cityEl = $('#city');
 	var city = $.trim(cityEl.val());
 
