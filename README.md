@@ -5,7 +5,8 @@
 This app is used to look at the current day forecast in addition to a 5 day future forecast. In addition, there will be a built in feature to allow you to search and retain those searches for easy access.
 
 ## Deployed App
-
+ https://minnesotanyst.github.io/weather-app/
+ 
 ## Description
 
 - Features inclue:

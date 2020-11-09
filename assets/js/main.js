@@ -85,10 +85,7 @@ var getForecast = function (lat, lon) {
 		// display forecast data from API
 		if (response.ok) {
 			response.json().then(function (data) {
-                var forecast = data.daily.splice(3);
-
-                $()
-                
+				var forecast = data.daily.splice(3);
 			});
 		}
 	});
