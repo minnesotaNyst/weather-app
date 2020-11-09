@@ -101,18 +101,24 @@ var getForecast = function (lat, lon) {
 						$(this)
 							.children('.forecast-date' + i)
 							.text(cDate2);
+						/* console.log('src', img + data.daily[i].weather[0].icon + '.png'); */
 						$(this)
 							.children('.forecast-icon' + i)
 							.attr('src', img + data.daily[i].weather[0].icon + '.png');
 						$(this)
 							.children('.forecast-temp' + i)
 							.text(data.daily[i].temp.day + '°F');
+						console.log(data.daily[i].humidity + '%');
 						$(this)
 							.children('forecast-hum' + i)
 							.text(data.daily[i].humidity + '%');
 					});
 				}
 			});
+		} else {
+			alert(
+				'Sorry, displaying the five day forecast is not working. Please try again.'
+			);
 		}
 	});
 };
