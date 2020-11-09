@@ -1,6 +1,7 @@
 /* $( document ).ready( function () { */
 var wUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=';
 var uUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=';
+var img = 'http://openweathermap.org/img/w/';
 var appid = '&units=imperial&appid=';
 var key = '21d337020a0247b874a0d43202c4ad83';
 var weather = '';
@@ -28,6 +29,7 @@ var searchHistory = function () {
 //function to grab the searched for city and return required data elements
 var getWeather = function (city) {
 	var mainWeather = wUrl + city + appid + key;
+	console.log(mainWeather);
 	fetch(mainWeather).then(function (response) {
 		if (response.ok) {
 			response.json().then(function (data) {
@@ -37,7 +39,10 @@ var getWeather = function (city) {
 				console.log(lat, lon, location);
 				var currentDate = moment().format('MM/DD/YYYY');
 				$('#current-city').text(location + ' ' + currentDate);
-				/* $('#weather-img').attr('src', wUrl + json.data.weather[0].icon + '.png'); */
+				$('#weather-img').attr(
+					'src',
+					img + data.list[0].weather[0].icon + '.png'
+				);
 				$('#temperature').text(data.list[0].main.temp.toFixed(0) + '°F');
 				$('#temp_low').text(data.list[0].main.temp_min.toFixed(0) + '°F');
 				$('#temp_high').text(data.list[0].main.temp_max.toFixed(0) + '°F');
