@@ -11,7 +11,6 @@ var cDate1 = moment().format('MM/DD/YYYY');
 //function to display search history in the left column of the app
 var searchHistory = function () {
 	cities = JSON.parse(localStorage.getItem('cities'));
-	console.log(cities);
 	if (!cities) {
 		cities = [];
 		return;
@@ -30,7 +29,6 @@ var searchHistory = function () {
 //function to grab the searched for city and return required data elements
 var getWeather = function (city) {
 	var mainWeather = wUrl + city + appid + key;
-	console.log(mainWeather); //remove this
 	fetch(mainWeather).then(function (response) {
 		if (response.ok) {
 			response.json().then(function (data) {
@@ -85,7 +83,6 @@ var getWeather = function (city) {
 //function to get the five day forecast data from the oncall weather api
 var getForecast = function (lat, lon) {
 	var oneCall = uUrl + lat + '&lon=' + lon + appid + key;
-	console.log(oneCall); //remove this
 	fetch(oneCall).then(function (response) {
 		// display forecast data from API
 		if (response.ok) {
@@ -93,25 +90,24 @@ var getForecast = function (lat, lon) {
 				var forecast = data.daily.splice(3);
 				console.log(forecast);
 
-				for (var i = 0; i < 5; ++i) {
+				for (var i = 0; i < forecast.length; ++i) {
 					$('.forecast').each(function () {
 						var cDate2 = moment()
 							.add(i + 1, 'days')
-							.format('MM/DD');
+							.format('MM/DD YYYY');
 						$(this)
 							.children('.forecast-date' + i)
 							.text(cDate2);
-						/* console.log('src', img + data.daily[i].weather[0].icon + '.png'); */
+						console.log('src', img + forecast[i].weather[0].icon + '.png');
 						$(this)
 							.children('.forecast-icon' + i)
-							.attr('src', img + data.daily[i].weather[0].icon + '.png');
+							.attr('src', img + forecast[i].weather[0].icon + '.png');
 						$(this)
 							.children('.forecast-temp' + i)
-							.text(data.daily[i].temp.day + '°F');
-						console.log(data.daily[i].humidity + '%');
+							.text('Temp: ' + forecast[i].temp.day + 'F');
 						$(this)
-							.children('forecast-hum' + i)
-							.text(data.daily[i].humidity + '%');
+							.children('.forecast-hum' + i)
+							.text('Hum: ' + forecast[i].humidity + '%');
 					});
 				}
 			});
@@ -132,7 +128,7 @@ var getCity = function (e) {
 
 	if (city) {
 		getWeather(city);
-		cityEl.value = '';
+		cityEl.val('');
 	} else {
 		alert('Please enter a City');
 	}
@@ -164,11 +160,10 @@ var setHistory = function (location) {
 	}
 };
 
-/* var searchHistory = function () {
+var searchList = function () {
 	var search = $(this).text().trim();
-	console.log(search);
 	getWeather(search);
-}; */
+};
 
 $('#search-city').on('click', getCity);
-/* $('#serch-history').on('click', '.clear', searchHistory); */
+$('#search-history').on('click', '.clear', searchList);
