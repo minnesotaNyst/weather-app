@@ -29,9 +29,11 @@ var searchHistory = function () {
 //function to grab the searched for city and return required data elements
 var getWeather = function (city) {
 	var mainWeather = wUrl + city + appid + key;
+	console.log(mainWeather);
 	fetch(mainWeather).then(function (response) {
 		if (response.ok) {
 			response.json().then(function (data) {
+				console.log(data);
 				var lat = data.city.coord.lat;
 				var lon = data.city.coord.lon;
 				var location = data.city.name;
@@ -146,7 +148,7 @@ var setHistory = function (location) {
 
 		//ths will put the most recent 8 entries at the top of the list
 		if (cities.length > 8) {
-			cityHistory.shift();
+			cities.shift();
 		}
 
 		//set the local storage with a key name of cities
